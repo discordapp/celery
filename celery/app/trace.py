@@ -23,7 +23,6 @@ from warnings import warn
 
 from billiard.einfo import ExceptionInfo
 from kombu.exceptions import EncodeError
-from kombu.utils import kwdict
 
 from celery import current_app, group
 from celery import states, signals
@@ -217,7 +216,6 @@ def build_tracer(name, task, loader=None, hostname=None, store_errors=True,
         # we want the main variables (I, and R) to stand out visually from the
         # the rest of the variables, so breaking PEP8 is worth it ;)
         R = I = retval = state = None
-        kwargs = kwdict(kwargs)
         try:
             push_task(task)
             task_request = Context(request or {}, args=args,

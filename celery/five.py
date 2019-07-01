@@ -150,7 +150,7 @@ def with_metaclass(Type, skip_attrs=set(['__dict__', '__weakref__'])):
 
 # ############# collections.OrderedDict ######################################
 # was moved to kombu
-from kombu.utils.compat import OrderedDict  # noqa
+from collections import OrderedDict
 
 # ############# threading.TIMEOUT_MAX ########################################
 try:

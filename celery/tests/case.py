@@ -28,12 +28,16 @@ from functools import partial, wraps
 from types import ModuleType
 
 try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO # noqa
+try:
     from unittest import mock
 except ImportError:
     import mock  # noqa
 from nose import SkipTest
 from kombu import Queue
-from kombu.log import NullHandler
+from logging import NullHandler
 from kombu.utils import nested, symbol_by_name
 
 from celery import Celery
@@ -57,6 +61,7 @@ __all__ = [
     'patch_modules', 'mock_context', 'mock_open', 'patch_many',
     'assert_signal_called', 'skip_if_pypy',
     'skip_if_jython', 'body_from_sig', 'restore_logging',
+    'redirect_stdouts',
 ]
 patch = mock.patch
 call = mock.call
@@ -878,3 +883,20 @@ def restore_logging():
         sys.stdout, sys.stderr, sys.__stdout__, sys.__stderr__ = outs
         root.level = level
         root.handlers[:] = handlers
+
+
+def redirect_stdouts(fun):
+    @wraps(fun)
+    def _inner(*args, **kwargs):
+        sys.stdout = StringIO()
+        sys.stderr = StringIO()
+
+        try:
+            return fun(
+                *args, **dict(kwargs, stdout=sys.stdout, stderr=sys.stderr)
+            )
+        finally:
+            sys.stdout = sys.__stdout__
+            sys.stderr = sys.__stderr__
+
+    return _inner

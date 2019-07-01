@@ -18,7 +18,7 @@ from functools import partial as _partial, reduce
 from operator import itemgetter
 from itertools import chain as _chain
 
-from kombu.utils import cached_property, fxrange, kwdict, reprcall, uuid
+from kombu.utils import cached_property, fxrange, reprcall, uuid
 
 from celery._state import current_app
 from celery.utils.functional import (
@@ -139,7 +139,7 @@ class Signature(dict):
     def from_dict(self, d, app=None):
         typ = d.get('subtask_type')
         if typ:
-            return self.TYPES[typ].from_dict(kwdict(d), app=app)
+            return self.TYPES[typ].from_dict(d, app=app)
         return Signature(d, app=app)
 
     def __init__(self, task=None, args=None, kwargs=None, options=None,
@@ -493,7 +493,7 @@ class group(Signature):
             # partial args passed on to all tasks in the group (Issue #1057).
             for task in tasks:
                 task['args'] = task._merge(d['args'])[0]
-        return _upgrade(d, group(tasks, app=app, **kwdict(d['options'])))
+        return _upgrade(d, group(tasks, app=app, **d['options']))
 
     def apply_async(self, args=(), kwargs=None, add_to_parent=True, **options):
         tasks = _maybe_clone(self.tasks, app=self._app)
@@ -591,8 +591,8 @@ class chord(Signature):
 
     @classmethod
     def from_dict(self, d, app=None):
-        args, d['kwargs'] = self._unpack_args(**kwdict(d['kwargs']))
-        return _upgrade(d, self(*args, app=app, **kwdict(d)))
+        args, d['kwargs'] = self._unpack_args(**d['kwargs'])
+        return _upgrade(d, self(*args, app=app, **d))
 
     @staticmethod
     def _unpack_args(header=None, body=None, **kwargs):

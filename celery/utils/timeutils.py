@@ -17,7 +17,6 @@ from calendar import monthrange
 from datetime import date, datetime, timedelta, tzinfo
 
 from kombu.utils import cached_property, reprcall
-from kombu.utils.compat import timedelta_seconds
 
 from pytz import timezone as _timezone, AmbiguousTimeError, FixedOffset
 
@@ -368,3 +367,7 @@ def adjust_timestamp(ts, offset, here=utcoffset):
 
 def maybe_s_to_ms(v):
     return int(float(v) * 1000.0) if v is not None else v
+
+
+def timedelta_seconds(delta):
+    return max(delta.total_seconds(), 0)

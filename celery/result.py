@@ -16,7 +16,7 @@ from contextlib import contextmanager
 from copy import copy
 
 from kombu.utils import cached_property
-from kombu.utils.compat import OrderedDict
+from collections import OrderedDict
 
 from . import current_app
 from . import states

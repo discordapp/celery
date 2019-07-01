@@ -10,8 +10,9 @@ from celery import platforms
 from celery.bin import beat as beat_bin
 from celery.apps import beat as beatapp
 
-from celery.tests.case import AppCase, Mock, patch, restore_logging
-from kombu.tests.case import redirect_stdouts
+from celery.tests.case import (
+    AppCase, Mock, patch, restore_logging, redirect_stdouts
+)
 
 
 class MockedShelveModule(object):

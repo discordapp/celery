@@ -325,15 +325,6 @@ class test_Request(AppCase):
     def test_task_wrapper_repr(self):
         self.assertTrue(repr(self.xRequest()))
 
-    @patch('celery.worker.job.kwdict')
-    def test_kwdict(self, kwdict):
-        prev, module.NEEDS_KWDICT = module.NEEDS_KWDICT, True
-        try:
-            self.xRequest()
-            self.assertTrue(kwdict.called)
-        finally:
-            module.NEEDS_KWDICT = prev
-
     def test_sets_store_errors(self):
         self.mytask.ignore_result = True
         job = self.xRequest()
@@ -778,7 +769,7 @@ class test_Request(AppCase):
         us = 'æØåveéðƒeæ'
         body = {'task': self.mytask.name, 'id': uuid(),
                 'args': [2], 'kwargs': {us: 'bar'}}
-        m = Message(None, body=anyjson.dumps(body), backend='foo',
+        m = Message(body=anyjson.dumps(body), backend='foo',
                     content_type='application/json',
                     content_encoding='utf-8')
         job = Request(m.decode(), message=m, app=self.app)
@@ -793,7 +784,7 @@ class test_Request(AppCase):
 
     def test_from_message_empty_args(self):
         body = {'task': self.mytask.name, 'id': uuid()}
-        m = Message(None, body=anyjson.dumps(body), backend='foo',
+        m = Message(body=anyjson.dumps(body), backend='foo',
                     content_type='application/json',
                     content_encoding='utf-8')
         job = Request(m.decode(), message=m, app=self.app)
@@ -803,7 +794,7 @@ class test_Request(AppCase):
 
     def test_from_message_missing_required_fields(self):
         body = {}
-        m = Message(None, body=anyjson.dumps(body), backend='foo',
+        m = Message(body=anyjson.dumps(body), backend='foo',
                     content_type='application/json',
                     content_encoding='utf-8')
         with self.assertRaises(KeyError):
@@ -812,7 +803,7 @@ class test_Request(AppCase):
     def test_from_message_nonexistant_task(self):
         body = {'task': 'cu.mytask.doesnotexist', 'id': uuid(),
                 'args': [2], 'kwargs': {'æØåveéðƒeæ': 'bar'}}
-        m = Message(None, body=anyjson.dumps(body), backend='foo',
+        m = Message(body=anyjson.dumps(body), backend='foo',
                     content_type='application/json',
                     content_encoding='utf-8')
         with self.assertRaises(KeyError):

@@ -10,7 +10,7 @@ from __future__ import absolute_import
 
 from datetime import datetime
 
-from kombu.syn import detect_environment
+from celery.utils.compat import detect_environment
 from kombu.utils import cached_property
 from kombu.utils.url import maybe_sanitize_url
 

@@ -97,7 +97,7 @@ class test_LRUCache(Case):
         burglar = Burglar(x)
         burglar.start()
         try:
-            for _ in getattr(x, method)():
+            for _ in list(getattr(x, method)()):
                 sleep(0.0001)
         finally:
             burglar.stop()

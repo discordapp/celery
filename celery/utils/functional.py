@@ -16,7 +16,7 @@ from itertools import islice
 
 from kombu.utils import cached_property
 from kombu.utils.functional import lazy, maybe_evaluate, is_list, maybe_list
-from kombu.utils.compat import OrderedDict
+from collections import OrderedDict
 
 from celery.five import UserDict, UserList, items, keys, range
 
@@ -83,7 +83,7 @@ class LRUCache(UserDict):
 
     def _iterate_items(self, _need_lock=IS_PYPY):
         with self.mutex if _need_lock else DummyContext():
-            for k in self:
+            for k in list(self):
                 try:
                     yield (k, self.data[k])
                 except KeyError:  # pragma: no cover
@@ -92,7 +92,7 @@ class LRUCache(UserDict):
 
     def _iterate_values(self, _need_lock=IS_PYPY):
         with self.mutex if _need_lock else DummyContext():
-            for k in self:
+            for k in list(self):
                 try:
                     yield self.data[k]
                 except KeyError:  # pragma: no cover

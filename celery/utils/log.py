@@ -80,7 +80,7 @@ def in_sighandler():
 
 def logger_isa(l, p, max=1000):
     this, seen = l, set()
-    for _ in range(max):
+    for i in range(max):
         if this == p:
             return True
         else:

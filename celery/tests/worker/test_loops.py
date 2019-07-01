@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 import socket
 
-from kombu.async import Hub, READ, WRITE, ERR
+from kombu.asynchronous import Hub, READ, WRITE, ERR
 
 from celery.bootsteps import CLOSE, RUN
 from celery.exceptions import InvalidTaskError, WorkerShutdown, WorkerTerminate
@@ -347,8 +347,8 @@ class test_asynloop(AppCase):
         x = X(self.app)
 
         def Gen():
-            raise StopIteration()
-            yield
+            if 0:
+                yield
         gen = Gen()
         x.hub.add_writer(6, gen)
         x.hub.on_tick.add(x.close_then_error(Mock(name='tick'), 2))

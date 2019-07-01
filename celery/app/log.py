@@ -18,7 +18,7 @@ import sys
 
 from logging.handlers import WatchedFileHandler
 
-from kombu.log import NullHandler
+from logging import NullHandler
 from kombu.utils.encoding import set_default_encoding_file
 
 from celery import signals

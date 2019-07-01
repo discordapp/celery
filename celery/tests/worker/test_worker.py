@@ -115,7 +115,7 @@ class MockHeart(object):
 def create_message(channel, **data):
     data.setdefault('id', uuid())
     channel.no_ack_consumers = set()
-    m = Message(channel, body=pickle.dumps(dict(**data)),
+    m = Message(channel=channel, body=pickle.dumps(dict(**data)),
                 content_type='application/x-python-serialize',
                 content_encoding='binary',
                 delivery_info={'consumer_tag': 'mock'})
@@ -667,8 +667,7 @@ class test_Consumer(AppCase):
         self.assertTrue(connections[0].closed)
 
     @patch('kombu.connection.Connection._establish_connection')
-    @patch('kombu.utils.sleep')
-    def test_connect_errback(self, sleep, connect):
+    def test_connect_errback(self, connect):
         l = MyKombuConsumer(self.buffer.put, timer=self.timer, app=self.app)
         from kombu.transport.memory import Transport
         Transport.connection_errors = (ChannelError, )
@@ -1096,7 +1095,7 @@ class test_WorkController(AppCase):
         pool.create(w)
 
     def test_Pool_create(self):
-        from kombu.async.semaphore import LaxBoundedSemaphore
+        from kombu.asynchronous.semaphore import LaxBoundedSemaphore
         w = Mock()
         w._conninfo.connection_errors = w._conninfo.channel_errors = ()
         w.hub = Mock()
