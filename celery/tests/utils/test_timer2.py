@@ -5,8 +5,7 @@ import time
 
 import celery.utils.timer2 as timer2
 
-from celery.tests.case import Case, Mock, patch
-from kombu.tests.case import redirect_stdouts
+from celery.tests.case import Case, Mock, patch, redirect_stdouts
 
 
 class test_Entry(Case):
@@ -53,7 +52,7 @@ class test_Schedule(Case):
 
         s = timer2.Schedule(on_error=on_error)
 
-        with patch('kombu.async.timer.to_timestamp') as tot:
+        with patch('kombu.asynchronous.timer.to_timestamp') as tot:
             tot.side_effect = OverflowError()
             s.enter_at(timer2.Entry(lambda: None, (), {}),
                        eta=datetime.now())
@@ -125,7 +124,7 @@ class test_Timer(Case):
         finally:
             t.stop()
 
-    @patch('kombu.async.timer.logger')
+    @patch('kombu.asynchronous.timer.logger')
     def test_apply_entry_error_handled(self, logger):
         t = timer2.Timer()
         t.schedule.on_error = None

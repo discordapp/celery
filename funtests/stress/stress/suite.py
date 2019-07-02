@@ -9,7 +9,7 @@ from collections import namedtuple
 from itertools import count
 from time import sleep
 
-from kombu.utils.compat import OrderedDict
+from collections import OrderedDict
 
 from celery import group, VERSION_BANNER
 from celery.exceptions import TimeoutError

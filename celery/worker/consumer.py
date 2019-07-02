@@ -24,10 +24,9 @@ from time import sleep
 
 from billiard.common import restart_state
 from billiard.exceptions import RestartFreqExceeded
-from kombu.async.semaphore import DummyLock
+from kombu.asynchronous.semaphore import DummyLock
 from kombu.common import QoS, ignore_errors
-from kombu.syn import _detect_environment
-from kombu.utils.compat import get_errno
+from celery.utils.compat import _detect_environment
 from kombu.utils.encoding import safe_repr, bytes_t
 from kombu.utils.limits import TokenBucket
 
@@ -279,7 +278,7 @@ class Consumer(object):
             try:
                 blueprint.start(self)
             except self.connection_errors as exc:
-                if isinstance(exc, OSError) and get_errno(exc) == errno.EMFILE:
+                if isinstance(exc, OSError) and exc.errno == errno.EMFILE:
                     raise  # Too many open files
                 maybe_shutdown()
                 try:

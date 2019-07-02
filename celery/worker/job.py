@@ -17,7 +17,7 @@ from billiard.einfo import ExceptionInfo
 from datetime import datetime
 from weakref import ref
 
-from kombu.utils import kwdict, reprcall
+from kombu.utils import reprcall
 from kombu.utils.encoding import safe_repr, safe_str
 
 from celery import signals
@@ -137,8 +137,6 @@ class Request(object):
         except AttributeError:
             raise InvalidTaskError(
                 'Task keyword arguments is not a mapping')
-        if NEEDS_KWDICT:
-            self.kwargs = kwdict(self.kwargs)
         eta = body.get('eta')
         expires = body.get('expires')
         utc = self.utc = body.get('utc', False)
