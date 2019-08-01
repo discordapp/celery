@@ -563,8 +563,8 @@ class Consumer(object):
                 try:
                     strategy(
                         message, payload,
-                        promise(call_soon, (message.ack_log_error,)),
-                        promise(call_soon, (message.reject_log_error,)),
+                        message.ack_log_error,
+                        message.reject_log_error,
                         callbacks,
                     )
                 except (InvalidTaskError, ContentDisallowed) as exc:
