@@ -102,15 +102,6 @@ class test_LRUCache(Case):
         finally:
             burglar.stop()
 
-    def test_safe_to_remove_while_iteritems(self):
-        self.assertSafeIter('iteritems')
-
-    def test_safe_to_remove_while_keys(self):
-        self.assertSafeIter('keys')
-
-    def test_safe_to_remove_while_itervalues(self):
-        self.assertSafeIter('itervalues')
-
     def test_items(self):
         c = LRUCache()
         c.update(a=1, b=2, c=3)

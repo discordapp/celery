@@ -44,7 +44,7 @@ source /etc/init.d/functions
 # NOTE: "set -e" does not work with the above functions,
 # which use non-zero return codes as non-error return conditions
 
-# some commands work asyncronously, so we'll wait this many seconds
+# some commands work asynchronously, so we'll wait this many seconds
 SLEEP_SECONDS=5
 
 DEFAULT_PID_FILE="/var/run/celery/$prog-%n.pid"
