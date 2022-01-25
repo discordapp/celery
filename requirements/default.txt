@@ -1,3 +1,3 @@
 pytz>dev
 billiard>=3.3.0.23,<3.4
-kombu @ git+https://github.com/discord/kombu.git@discord-v3.0.37#egg=kombu
+kombu @ https://github.com/discord/kombu/archive/discord-v3.0.37.zip
