@@ -132,7 +132,8 @@ def disable_events(state):
 def heartbeat(state):
     logger.debug('Heartbeat requested by remote.')
     dispatcher = state.consumer.event_dispatcher
-    dispatcher.send('worker-heartbeat', freq=5, **worker_state.SOFTWARE_INFO)
+    logger.error('XXX DISCORD XXX - Heartbeat requested by remote. >:(')
+    # dispatcher.send('worker-heartbeat', freq=5, **worker_state.SOFTWARE_INFO)
 
 
 @Panel.register

@@ -9,11 +9,16 @@
 """
 from __future__ import absolute_import
 
+import logging
+
 from celery.utils.sysinfo import load_average
+from celery.utils.log import get_logger
 
 from .state import SOFTWARE_INFO, active_requests, all_total_count
 
 __all__ = ['Heart']
+
+logger = get_logger(__name__)
 
 
 class Heart(object):
@@ -46,9 +51,10 @@ class Heart(object):
     def start(self):
         if self.eventer.enabled:
             self._send('worker-online')
-            self.tref = self.timer.call_repeatedly(
-                self.interval, self._send, ('worker-heartbeat', ),
-            )
+            logging.error('XXX DISCORD XXX - Tried to heartbeat')
+            # self.tref = self.timer.call_repeatedly(
+            #     self.interval, self._send, ('worker-heartbeat', ),
+            # )
 
     def stop(self):
         if self.tref is not None:
