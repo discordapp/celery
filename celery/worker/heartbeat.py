@@ -51,7 +51,7 @@ class Heart(object):
     def start(self):
         if self.eventer.enabled:
             self._send('worker-online')
-            logging.error('XXX DISCORD XXX - Tried to heartbeat')
+            logger.error('XXX DISCORD XXX - Tried to heartbeat')
             # self.tref = self.timer.call_repeatedly(
             #     self.interval, self._send, ('worker-heartbeat', ),
             # )
